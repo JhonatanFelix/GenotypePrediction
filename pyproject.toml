@@ -5,7 +5,7 @@ description = "Python reproductions of classical genotype prediction methods."
 authors = [
     {name = "jhonatan", email = "jhonyrf@gmail.com"},
 ]
-dependencies = ["numpy>=2.4.4"]
+dependencies = ["numpy>=2.4.4", "pandas>=3.0.2", "scikit-learn>=1.8.0"]
 requires-python = ">=3.13"
 readme = "README.md"
 license = {text = "MIT"}
