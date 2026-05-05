@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import numpy as np
 
-from neural_pi_bayes.data.preprocessing import GenotypeStandardizer
-from neural_pi_bayes.evaluation.metrics import r2
-from neural_pi_bayes.inference.gibbs import run_bayescpi_gibbs
+from GPtools.data.preprocessing import GenotypeStandardizer
+from GPtools.evaluation.metrics import r2
+from GPtools.inference.gibbs import run_bayescpi_gibbs
 
 
 def _posterior_interval(samples: np.ndarray, alpha: float = 0.05) -> list[float]:
