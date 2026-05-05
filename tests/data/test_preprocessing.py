@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from GPtools.data.preprocessing import GenotypeStandardizer
+from genotypeprediction.data.preprocessing import GenotypeStandardizer
 
 def test_preprocessing_uses_statistics_and_removes_markers() -> None:
     X_train = np.array(
