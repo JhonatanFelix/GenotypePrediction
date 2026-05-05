@@ -29,4 +29,4 @@ check = "python -m compileall src tests"
 lint = "ruff check ."
 format-check = "ruff format --check ."
 test = "pytest"
-ci = {composite = ["check", "lint", "format-check", "test"]}
+ci = {composite = ["check", "test", "lint", "format-check"]}
