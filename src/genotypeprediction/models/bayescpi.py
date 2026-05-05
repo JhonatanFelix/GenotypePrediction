@@ -82,7 +82,9 @@ class BayesCPi:
         """Fit BayesCpi by Gibbs sampling with posterior updates for ``q``."""
 
         self.standardizer_ = GenotypeStandardizer()
-        X_standardized = self.standardizer_.fit_transform(X_train, feature_names=feature_names)
+        X_standardized = self.standardizer_.fit_transform(
+            X_train, feature_names=feature_names
+        )
         self.standardizer_.fit_y(y_train)
         y_centered = self.standardizer_.center_y(y_train)
 
@@ -110,7 +112,9 @@ class BayesCPi:
         self.pip_ = np.asarray(posterior["pip"], dtype=float)
         self.q_trace_ = np.asarray(posterior["q_trace"], dtype=float)
         self.sigma_e2_trace_ = np.asarray(posterior["sigma_e2_trace"], dtype=float)
-        self.sigma_beta2_trace_ = np.asarray(posterior["sigma_beta2_trace"], dtype=float)
+        self.sigma_beta2_trace_ = np.asarray(
+            posterior["sigma_beta2_trace"], dtype=float
+        )
         self.n_included_trace_ = np.asarray(posterior["n_included_trace"], dtype=int)
         self.posterior_sample_count_ = int(posterior["posterior_sample_count"])
         self.feature_names_ = self.standardizer_.kept_feature_names_
@@ -136,7 +140,9 @@ class BayesCPi:
         """Return posterior summaries for marker effects and global inclusion ``q``."""
 
         if self.beta_mean_ is None or self.pip_ is None or self.beta2_mean_ is None:
-            raise RuntimeError("The model must be fitted before requesting posterior summaries.")
+            raise RuntimeError(
+                "The model must be fitted before requesting posterior summaries."
+            )
 
         q_mean = float(np.mean(self.q_trace_))
         q_sd = float(np.std(self.q_trace_, ddof=0))
@@ -171,7 +177,9 @@ class BayesCPi:
         """Return the traces recorded after burn-in and thinning."""
 
         if self.q_trace_ is None:
-            raise RuntimeError("The model must be fitted before requesting trace summaries.")
+            raise RuntimeError(
+                "The model must be fitted before requesting trace summaries."
+            )
 
         return {
             "q_trace": self.q_trace_,
@@ -180,7 +188,9 @@ class BayesCPi:
             "n_included_trace": self.n_included_trace_,
         }
 
-    def get_top_snps_by_pip(self, top_n: int = 20) -> list[dict[str, float | int | str]]:
+    def get_top_snps_by_pip(
+        self, top_n: int = 20
+    ) -> list[dict[str, float | int | str]]:
         """Return the top markers ranked by posterior inclusion probability."""
 
         if self.pip_ is None or self.beta_mean_ is None or self.beta2_mean_ is None:

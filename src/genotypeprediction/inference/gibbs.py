@@ -27,7 +27,9 @@ def _kept_sample(iteration: int, burn_in: int, thin: int) -> bool:
     return (iteration - burn_in) % thin == 0
 
 
-def _validate_sampler_inputs(X: np.ndarray, y: np.ndarray, n_iter: int, burn_in: int, thin: int) -> tuple[np.ndarray, np.ndarray]:
+def _validate_sampler_inputs(
+    X: np.ndarray, y: np.ndarray, n_iter: int, burn_in: int, thin: int
+) -> tuple[np.ndarray, np.ndarray]:
     """Validate basic sampler inputs and return float arrays."""
 
     if n_iter <= burn_in:
@@ -214,7 +216,9 @@ def _run_bayesc_gibbs(
             n_included_trace.append(n_included)
             sample_count += 1
 
-        if verbose and (iteration == 1 or iteration % progress_every == 0 or iteration == n_iter):
+        if verbose and (
+            iteration == 1 or iteration % progress_every == 0 or iteration == n_iter
+        ):
             mode_name = "BayesCpi" if learning_q else "BayesCFixedQ"
             print(
                 f"[{mode_name}] iteration={iteration:>5d} "
@@ -415,7 +419,9 @@ def run_annotation_bayescpi_gibbs(
             q_by_category[category_index] = float(
                 rng.beta(
                     a_q + n_included_by_category[category_index],
-                    b_q + category_sizes[category_index] - n_included_by_category[category_index],
+                    b_q
+                    + category_sizes[category_index]
+                    - n_included_by_category[category_index],
                 )
             )
 
@@ -455,8 +461,12 @@ def run_annotation_bayescpi_gibbs(
             n_included_by_category_trace.append(n_included_by_category.copy())
             sample_count += 1
 
-        if verbose and (iteration == 1 or iteration % progress_every == 0 or iteration == n_iter):
-            q_preview = ", ".join(f"{value:.4f}" for value in q_by_category[: min(4, n_categories)])
+        if verbose and (
+            iteration == 1 or iteration % progress_every == 0 or iteration == n_iter
+        ):
+            q_preview = ", ".join(
+                f"{value:.4f}" for value in q_by_category[: min(4, n_categories)]
+            )
             print(
                 f"[AnnotationBayesCPi] iteration={iteration:>5d} "
                 f"n_included={n_included:>5d} q_by_category=[{q_preview}] "
@@ -474,8 +484,8 @@ def run_annotation_bayescpi_gibbs(
         "sigma_e2_trace": np.asarray(sigma_e2_trace, dtype=float),
         "sigma_beta2_trace": np.asarray(sigma_beta2_trace, dtype=float),
         "n_included_trace": np.asarray(n_included_trace, dtype=int),
-        "n_included_by_category_trace": np.asarray(n_included_by_category_trace, dtype=int),
+        "n_included_by_category_trace": np.asarray(
+            n_included_by_category_trace, dtype=int
+        ),
         "posterior_sample_count": sample_count,
     }
-
-

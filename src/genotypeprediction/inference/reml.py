@@ -2,28 +2,30 @@
 
 from __future__ import annotations
 
-import numpy as np 
+import numpy as np
 from scipy.linalg import solve
 from scipy.optimize import minimize_scalar
+
 
 def _prepare_fixed_effects(y: np.ndarray, X_fixed: np.ndarray | None) -> np.ndarray:
     """Return a fixed-effect design matrix, default to an intercept only."""
 
     if X_fixed is None:
-        return np.ones((y.shape[0],1), dtype=float)
+        return np.ones((y.shape[0], 1), dtype=float)
 
     X_fixed = np.asarray(X_fixed, dtype=float)
     if X_fixed.ndim == 1:
         X_fixed = X_fixed[:, None]
     return X_fixed
 
+
 def _profile_reml_components(
-        eigenvalues: np.ndarray,
-        eigenvectors: np.ndarray,
-        y: np.ndarray,
-        X_fixed: np.ndarray,
-        delta: float,
-        ) -> tuple[float, float, float, float]:
+    eigenvalues: np.ndarray,
+    eigenvectors: np.ndarray,
+    y: np.ndarray,
+    X_fixed: np.ndarray,
+    delta: float,
+) -> tuple[float, float, float, float]:
     """Compute the ingredients of REML profile likelihood for a given delta."""
 
     h = eigenvalues + delta
@@ -118,4 +120,3 @@ def estimate_reml_variance_components(
         "log_delta_hat": float(result.x),
         "objective_value": float(result.fun),
     }
-
