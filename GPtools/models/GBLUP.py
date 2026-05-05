@@ -1,13 +1,13 @@
 """Dual GBLUP implementation with REML lambda estimation"""
 
-from __future__ import annotation
+from __future__ import annotations
 
 import numpy as np
 from scipy.linalg import solve
 
 from GPtools.data.preprocessing import GenotypeStandardizer
 from GPtools.evaluation.metrics import r2
-from GPtools.evaluation.reml import estimation_reml_variance_components
+from GPtools.inference.reml import estimate_reml_variance_components
 
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 from sklearn.model_selection import train_test_split

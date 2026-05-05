@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import numpy as np 
 from scipy.linalg import solve
-from scipy.optimize import minimize_scaler
+from scipy.optimize import minimize_scalar
 
 def _prepare_fixed_effects(y: np.ndarray, X_fixed: np.ndarray | None) -> np.ndarray:
     """Return a fixed-effect design matrix, default to an intercept only."""
