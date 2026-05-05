@@ -35,4 +35,4 @@ jobs:
         run: pdm run ruff check -v .
 
       - name: Check formatting
-        run: pdm run ruff format --check .
+        run: pdm run ruff format --check -v .
