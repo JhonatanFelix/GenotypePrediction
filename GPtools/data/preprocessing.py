@@ -22,10 +22,10 @@ The workflow is:
     """
     
     marker_means: np.ndarray | None = field(default=None, init=False)
-    maker_stds_: np.ndarray | None = field(default=None, init=False)
+    marker_stds_: np.ndarray | None = field(default=None, init=False)
     keep_mask_: np.ndarray | None = field(default=None, init=False)
     kept_feature_names_: list[str] | None = field(default=None, init=False)
-    y_mean_: fload | None = field(default=None, init=False)
+    y_mean_: float | None = field(default=None, init=False)
 
     def fit(self, X:np.ndarray, feature_names: list[str] | None = None) -> "GenotypeStandardizer":
         """Fit imputation and scaling stastistics on training markers"""
@@ -86,7 +86,7 @@ The workflow is:
         """Fit on the training data and return the standardized markers."""
         return self.fit(X, feature_names=feature_names).transform(X)
     
-    def fit_y(self, y= np.ndarray) -> "GenotypeStandardizer":
+    def fit_y(self, y: np.ndarray) -> "GenotypeStandardizer":
         """Fit on the training data and return the standardized markers"""
         y = np.asarray(y, dtype=float)
         self.y_mean_ = float(np.mean(y))
