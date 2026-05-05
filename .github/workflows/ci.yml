@@ -29,10 +29,10 @@ jobs:
         run: pdm run python -m compileall src tests
       
       - name: Run tests
-        run: pdm run python -m pytest
+        run: pdm run python -m pytest    
+        
+      - name: Lint
+        run: pdm run ruff check -v .
 
       - name: Check formatting
         run: pdm run ruff format --check .
-
-      - name: Lint
-        run: pdm run ruff check -v .
