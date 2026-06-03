@@ -30,3 +30,7 @@ lint = "ruff check ."
 format-check = "ruff format --check ."
 test = "pytest"
 ci = {composite = ["check", "test", "lint", "format-check"]}
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
