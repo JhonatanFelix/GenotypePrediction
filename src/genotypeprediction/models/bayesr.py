@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 
 from genotypeprediction.data.preprocessing import GenotypeStandardizer
-from genotypeprediction.evaluation.metrics import r2
+from genotypeprediction.evaluation.metrics import pearson_corr, r2
 from genotypeprediction.inference.bayesr_gibbs import (
     DEFAULT_BAYESR_ALPHA_PI,
     DEFAULT_BAYESR_GAMMA,
@@ -167,6 +167,17 @@ class BayesR:
         """Return the out-of-sample R-squared."""
 
         return r2(y_test, self.predict(X_test))
+
+    def metric_report(self, X_test: np.ndarray, y_test: np.ndarray) -> dict[str, float]:
+        """Compute a compact regression metric report on test data."""
+        predictions = self.predict(X_test)
+        y_test = np.asarray(y_test, dtype=float)
+        return {
+            "mse": float(np.mean((y_test - predictions) ** 2)),
+            "mae": float(np.mean(np.abs(y_test - predictions))),
+            "r2": r2(y_test, predictions),
+            "pearson": pearson_corr(y_test, predictions),
+        }
 
     def get_posterior_summary(
         self,

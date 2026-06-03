@@ -82,7 +82,7 @@ class GBLUPDual:
             )
             self.lambda_g = float(reml_estimates["lambda_g"])
             self.sigma_e2_hat = float(reml_estimates["sigma_e2_hat"])
-            self.sigma_g2_hat = float(reml_estimates["sigma_e2_hat"])
+            self.sigma_g2_hat = float(reml_estimates["sigma_g2_hat"])
         else:
             self.lambda_g = 1.0
             self.sigma_e2_hat = None
@@ -107,7 +107,7 @@ class GBLUPDual:
             raise NotFittedError("The model must be fitted before prediction.")
 
         X_test_standardized = self.standardizer_.transform(X_test)
-        K_test_train = (X_test_standardized @ self.X_train_T) / self.X_train_.shape[1]
+        K_test_train = (X_test_standardized @ self.X_train_.T) / self.X_train_.shape[1]
         y_pred_centered = K_test_train @ self.alpha_hat
         return self.standardizer_.restore_y(y_pred_centered)
 
@@ -124,3 +124,15 @@ class GBLUPDual:
         performance = map_performance[method]
 
         return performance(y_true=y_test, y_pred=self.predict(X_test))
+
+    def metric_report(self, X_test: np.ndarray, y_test: np.ndarray) -> dict[str, float]:
+        """Compute a compact regression metric report on test data."""
+        predictions = self.predict(X_test)
+        y_test = np.asarray(y_test, dtype=float)
+        return {
+            "mse": float(np.mean((y_test - predictions) ** 2)),
+            "mae": float(np.mean(np.abs(y_test - predictions))),
+            "r2": r2(y_test, predictions),
+            "pearson": pearson_corr(y_test, predictions),
+        }
+
